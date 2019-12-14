@@ -46,6 +46,7 @@
     "react-image-magnify": "^2.7.4",
     "react-player": "^1.14.2",
     "react-tooltip": "^3.11.1",
+    "serve-favicon": "^2.5.0",
     "styled-components": "^4.4.1"
   }
 }

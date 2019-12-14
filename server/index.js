@@ -1,15 +1,19 @@
 const express = require('express');
 const database = require('../database/db.js')
 const server = express();
-const port = process.env.PORT || 4444;
+const port = process.env.PORT || 3000;
 const AWS = require('aws-sdk');
 const cors = require('cors');
 const db = database.connect();
+const favicon = require('serve-favicon')
 /* Load AWS configuration */
 AWS.config.loadFromPath('./config/aws.json');
 
 /* Create instance of AWS S3 */
 const s3 = new AWS.S3();
+
+/* For adding little dude with magnifying glass */
+server.use(favicon(__dirname + '/../public/favicon.ico'))
 
 /* For Parsing */
 server.use(express.json());
@@ -45,10 +49,12 @@ server.get('/images:productId', (req, res) => {
     res.send(images);
   })
 })
-
+// server.get('*', (req, res) =>{
+//   res.redirect('/')
+// })
 
 server.listen(port, () => {
   console.log(`
   Server is listening on port ${port}
-  visit http://127.0.0.1:${port}/`)
+  visit http://ec2-54-184-87-113.us-west-2.compute.amazonaws.com:${port}/`)
 })

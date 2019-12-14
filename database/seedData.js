@@ -7,5 +7,8 @@ module.exports = {
   },
   'TOB-135N': {
     title :'Cuisinart® Deluxe Convection Toaster Oven'
+  },
+  'XBOX1X': {
+    title: 'Xbox One X 1TB console 1 Xbox Wireless controller'
   }
 }

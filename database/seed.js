@@ -14,6 +14,15 @@ AWS.config.loadFromPath('./config/aws.json')
 /* Create AWS S3 Instance */
 const s3 = new AWS.S3()
 
+/* Import schema */
+const importSchema = (callback) => {
+  exec('mysql -u *** -p*** fec_images < ./database/fec_images.sql',
+  (err, out) => {
+    err ? callback(err)
+    : callback(null, out)
+  })
+}
+
 /* Query AWS S3 bucket for all images */
 const fetchS3Bucket = (callback) => {
   // List all objects in s3 mockbbb bucket
@@ -59,66 +68,8 @@ const seed = ({ Name, Contents }) => {
 }
 
 
-/* Start mysql if not already running */
-const start = (callback) => {
-  exec('mysql.server start',
-  (err, out) => {
-    err ? callback(err)
-    : callback(null, out)
-  })
-}
 
-/* Import schema */
-const importSchema = (callback) => {
-  exec('mysql -u root fec_images < ./database/fec_images.sql',
-  (err, out) => {
-    err ? callback(err)
-    : callback(null, out)
-  })
-}
-
-/* Create database if not already initially created */
-const createDB = (callback) => {
-  const cx = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: ''
-  });
-
-  cx.connect(err => {
-    if(err) {
-      console.error('ERROR CONNECTING TO DATABASE `FEC_IMAGES`')
-    } else {
-      cx.query('CREATE DATABASE IF NOT EXISTS fec_images', (err => {
-        if(err) {
-          console.error('ERROR CREATING FEC_IMAGES');
-          callback(err)
-        } else {
-          console.log('Successfully created database fec_images!')
-          cx.end();
-          callback(null);
-        }
-      }))
-    }
-  });
-}
-
-
-/* Invoke start() and make sure each step completes before the next and ends at seed() */
-start(err => {
-  if(err) {
-    console.error(err)
-  } else {
-    console.log('Successfully Started MYSQL')
-    createDB(err => {
-      if(err) { console.error(err) }
-      else { console.log('Successfully Created Database fec_images') }
-
-
-    })
-  }
-})
-
+/* Invoke importSchema() and make sure each step completes before the next and ends at seed() */
 
 importSchema(err => {
   if(err) {

@@ -44,6 +44,7 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-image-magnify": "^2.7.4",
+    "react-modal": "^3.11.1",
     "react-player": "^1.14.2",
     "react-tooltip": "^3.11.1",
     "serve-favicon": "^2.5.0",
